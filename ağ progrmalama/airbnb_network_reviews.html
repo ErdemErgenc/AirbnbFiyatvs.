@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 800px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "font": {"color": "white"}, "id": "Besiktas_0.0", "label": "Besiktas_0.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 0.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Besiktas_15.0", "label": "Besiktas_15.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 15.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_1.0", "label": "Beyoglu_1.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 1.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_4.0", "label": "Beyoglu_4.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 4.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_10.0", "label": "Beyoglu_10.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 10.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_13.0", "label": "Beyoglu_13.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 13.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_28.0", "label": "Beyoglu_28.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 28.0\n\u0130lan Say\u0131s\u0131: 2"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_41.0", "label": "Beyoglu_41.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 41.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_44.0", "label": "Beyoglu_44.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 44.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_47.0", "label": "Beyoglu_47.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 47.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_62.0", "label": "Beyoglu_62.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 62.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_69.0", "label": "Beyoglu_69.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 69.0\n\u0130lan Say\u0131s\u0131: 2"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_86.0", "label": "Beyoglu_86.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 86.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_109.0", "label": "Beyoglu_109.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 109.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Fatih_26.0", "label": "Fatih_26.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 26.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Fatih_134.0", "label": "Fatih_134.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 134.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Sariyer_0.0", "label": "Sariyer_0.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 0.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Sisli_25.0", "label": "Sisli_25.0", "shape": "dot", "size": 30, "title": "Ortalama \u0130nceleme Puan\u0131: 25.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Besiktas", "label": "Besiktas", "shape": "dot", "size": 50, "title": "En \u0130yi \u0130lan: Home in Be\u015fikta\u015f \u00b7 \u26054.67 \u00b7 1 bedroom \u00b7 2 beds \u00b7 1 bath\n\u0130nceleme Puan\u0131: 15"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu", "label": "Beyoglu", "shape": "dot", "size": 50, "title": "En \u0130yi \u0130lan: Rental unit in Istanbul \u00b7 \u26054.50 \u00b7 1 bedroom \u00b7 4 beds \u00b7 1 bath\n\u0130nceleme Puan\u0131: 109"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Fatih", "label": "Fatih", "shape": "dot", "size": 50, "title": "En \u0130yi \u0130lan: Rental unit in \u0130stanbul \u00b7 \u26054.62 \u00b7 2 bedrooms \u00b7 5 beds \u00b7 2 baths\n\u0130nceleme Puan\u0131: 134"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Sariyer", "label": "Sariyer", "shape": "dot", "size": 50, "title": "En \u0130yi \u0130lan: Rental unit in \u0130stanbul \u00b7 2 bedrooms \u00b7 2 beds \u00b7 1 bath\n\u0130nceleme Puan\u0131: 0"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Sisli", "label": "Sisli", "shape": "dot", "size": 50, "title": "En \u0130yi \u0130lan: Rental unit in Istanbul \u00b7 \u26054.88 \u00b7 2 bedrooms \u00b7 2 beds \u00b7 1 bath\n\u0130nceleme Puan\u0131: 25"}]);
+                  edges = new vis.DataSet([{"from": "Besiktas_0.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 15.0", "to": "Besiktas_15.0"}, {"from": "Beyoglu_1.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 3.0", "to": "Beyoglu_4.0"}, {"from": "Beyoglu_1.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 9.0", "to": "Beyoglu_10.0"}, {"from": "Beyoglu_1.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 12.0", "to": "Beyoglu_13.0"}, {"from": "Beyoglu_1.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 27.0", "to": "Beyoglu_28.0"}, {"from": "Beyoglu_1.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 40.0", "to": "Beyoglu_41.0"}, {"from": "Beyoglu_1.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 43.0", "to": "Beyoglu_44.0"}, {"from": "Beyoglu_1.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 46.0", "to": "Beyoglu_47.0"}, {"from": "Beyoglu_1.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 61.0", "to": "Beyoglu_62.0"}, {"from": "Beyoglu_1.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 68.0", "to": "Beyoglu_69.0"}, {"from": "Beyoglu_1.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 85.0", "to": "Beyoglu_86.0"}, {"from": "Beyoglu_1.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 108.0", "to": "Beyoglu_109.0"}, {"from": "Beyoglu_4.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 6.0", "to": "Beyoglu_10.0"}, {"from": "Beyoglu_4.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 9.0", "to": "Beyoglu_13.0"}, {"from": "Beyoglu_4.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 24.0", "to": "Beyoglu_28.0"}, {"from": "Beyoglu_4.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 37.0", "to": "Beyoglu_41.0"}, {"from": "Beyoglu_4.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 40.0", "to": "Beyoglu_44.0"}, {"from": "Beyoglu_4.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 43.0", "to": "Beyoglu_47.0"}, {"from": "Beyoglu_4.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 58.0", "to": "Beyoglu_62.0"}, {"from": "Beyoglu_4.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 65.0", "to": "Beyoglu_69.0"}, {"from": "Beyoglu_4.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 82.0", "to": "Beyoglu_86.0"}, {"from": "Beyoglu_4.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 105.0", "to": "Beyoglu_109.0"}, {"from": "Beyoglu_10.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 3.0", "to": "Beyoglu_13.0"}, {"from": "Beyoglu_10.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 18.0", "to": "Beyoglu_28.0"}, {"from": "Beyoglu_10.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 31.0", "to": "Beyoglu_41.0"}, {"from": "Beyoglu_10.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 34.0", "to": "Beyoglu_44.0"}, {"from": "Beyoglu_10.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 37.0", "to": "Beyoglu_47.0"}, {"from": "Beyoglu_10.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 52.0", "to": "Beyoglu_62.0"}, {"from": "Beyoglu_10.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 59.0", "to": "Beyoglu_69.0"}, {"from": "Beyoglu_10.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 76.0", "to": "Beyoglu_86.0"}, {"from": "Beyoglu_10.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 99.0", "to": "Beyoglu_109.0"}, {"from": "Beyoglu_13.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 15.0", "to": "Beyoglu_28.0"}, {"from": "Beyoglu_13.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 28.0", "to": "Beyoglu_41.0"}, {"from": "Beyoglu_13.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 31.0", "to": "Beyoglu_44.0"}, {"from": "Beyoglu_13.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 34.0", "to": "Beyoglu_47.0"}, {"from": "Beyoglu_13.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 49.0", "to": "Beyoglu_62.0"}, {"from": "Beyoglu_13.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 56.0", "to": "Beyoglu_69.0"}, {"from": "Beyoglu_13.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 73.0", "to": "Beyoglu_86.0"}, {"from": "Beyoglu_13.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 96.0", "to": "Beyoglu_109.0"}, {"from": "Beyoglu_28.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 13.0", "to": "Beyoglu_41.0"}, {"from": "Beyoglu_28.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 16.0", "to": "Beyoglu_44.0"}, {"from": "Beyoglu_28.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 19.0", "to": "Beyoglu_47.0"}, {"from": "Beyoglu_28.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 34.0", "to": "Beyoglu_62.0"}, {"from": "Beyoglu_28.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 41.0", "to": "Beyoglu_69.0"}, {"from": "Beyoglu_28.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 58.0", "to": "Beyoglu_86.0"}, {"from": "Beyoglu_28.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 81.0", "to": "Beyoglu_109.0"}, {"from": "Beyoglu_41.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 3.0", "to": "Beyoglu_44.0"}, {"from": "Beyoglu_41.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 6.0", "to": "Beyoglu_47.0"}, {"from": "Beyoglu_41.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 21.0", "to": "Beyoglu_62.0"}, {"from": "Beyoglu_41.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 28.0", "to": "Beyoglu_69.0"}, {"from": "Beyoglu_41.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 45.0", "to": "Beyoglu_86.0"}, {"from": "Beyoglu_41.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 68.0", "to": "Beyoglu_109.0"}, {"from": "Beyoglu_44.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 3.0", "to": "Beyoglu_47.0"}, {"from": "Beyoglu_44.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 18.0", "to": "Beyoglu_62.0"}, {"from": "Beyoglu_44.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 25.0", "to": "Beyoglu_69.0"}, {"from": "Beyoglu_44.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 42.0", "to": "Beyoglu_86.0"}, {"from": "Beyoglu_44.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 65.0", "to": "Beyoglu_109.0"}, {"from": "Beyoglu_47.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 15.0", "to": "Beyoglu_62.0"}, {"from": "Beyoglu_47.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 22.0", "to": "Beyoglu_69.0"}, {"from": "Beyoglu_47.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 39.0", "to": "Beyoglu_86.0"}, {"from": "Beyoglu_47.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 62.0", "to": "Beyoglu_109.0"}, {"from": "Beyoglu_62.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 7.0", "to": "Beyoglu_69.0"}, {"from": "Beyoglu_62.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 24.0", "to": "Beyoglu_86.0"}, {"from": "Beyoglu_62.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 47.0", "to": "Beyoglu_109.0"}, {"from": "Beyoglu_69.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 17.0", "to": "Beyoglu_86.0"}, {"from": "Beyoglu_69.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 40.0", "to": "Beyoglu_109.0"}, {"from": "Beyoglu_86.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 23.0", "to": "Beyoglu_109.0"}, {"from": "Fatih_26.0", "title": "\u0130nceleme Puan\u0131 Fark\u0131: 108.0", "to": "Fatih_134.0"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 800px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "font": {"color": "white"}, "id": "Besiktas_1178.0", "label": "Besiktas_1178.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 1178.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Besiktas_3968.0", "label": "Besiktas_3968.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 3968.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_448.0", "label": "Beyoglu_448.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 448.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_490.0", "label": "Beyoglu_490.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 490.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_886.0", "label": "Beyoglu_886.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 886.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_1176.0", "label": "Beyoglu_1176.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 1176.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_1237.0", "label": "Beyoglu_1237.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 1237.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_1242.0", "label": "Beyoglu_1242.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 1242.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_1601.0", "label": "Beyoglu_1601.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 1601.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_1634.0", "label": "Beyoglu_1634.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 1634.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_2124.0", "label": "Beyoglu_2124.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 2124.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_2357.0", "label": "Beyoglu_2357.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 2357.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_2581.0", "label": "Beyoglu_2581.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 2581.0\n\u0130lan Say\u0131s\u0131: 3"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu_4868.0", "label": "Beyoglu_4868.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 4868.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Fatih_665.0", "label": "Fatih_665.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 665.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Fatih_1876.0", "label": "Fatih_1876.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 1876.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Sariyer_3693.0", "label": "Sariyer_3693.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 3693.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Sisli_1405.0", "label": "Sisli_1405.0", "shape": "dot", "size": 30, "title": "Ortalama Fiyat: 1405.0\n\u0130lan Say\u0131s\u0131: 1"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Besiktas", "label": "Besiktas", "shape": "dot", "size": 50, "title": "En \u0130yi \u0130lan: Home in Be\u015fikta\u015f \u00b7 \u26054.67 \u00b7 1 bedroom \u00b7 2 beds \u00b7 1 bath\n\u0130nceleme Puan\u0131: 15"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Beyoglu", "label": "Beyoglu", "shape": "dot", "size": 50, "title": "En \u0130yi \u0130lan: Rental unit in Istanbul \u00b7 \u26054.50 \u00b7 1 bedroom \u00b7 4 beds \u00b7 1 bath\n\u0130nceleme Puan\u0131: 109"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Fatih", "label": "Fatih", "shape": "dot", "size": 50, "title": "En \u0130yi \u0130lan: Rental unit in \u0130stanbul \u00b7 \u26054.62 \u00b7 2 bedrooms \u00b7 5 beds \u00b7 2 baths\n\u0130nceleme Puan\u0131: 134"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Sariyer", "label": "Sariyer", "shape": "dot", "size": 50, "title": "En \u0130yi \u0130lan: Rental unit in \u0130stanbul \u00b7 2 bedrooms \u00b7 2 beds \u00b7 1 bath\n\u0130nceleme Puan\u0131: 0"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Sisli", "label": "Sisli", "shape": "dot", "size": 50, "title": "En \u0130yi \u0130lan: Rental unit in Istanbul \u00b7 \u26054.88 \u00b7 2 bedrooms \u00b7 2 beds \u00b7 1 bath\n\u0130nceleme Puan\u0131: 25"}]);
+                  edges = new vis.DataSet([{"from": "Besiktas_1178.0", "title": "Fiyat Fark\u0131: 2790.0", "to": "Besiktas_3968.0"}, {"from": "Beyoglu_448.0", "title": "Fiyat Fark\u0131: 42.0", "to": "Beyoglu_490.0"}, {"from": "Beyoglu_448.0", "title": "Fiyat Fark\u0131: 438.0", "to": "Beyoglu_886.0"}, {"from": "Beyoglu_448.0", "title": "Fiyat Fark\u0131: 728.0", "to": "Beyoglu_1176.0"}, {"from": "Beyoglu_448.0", "title": "Fiyat Fark\u0131: 789.0", "to": "Beyoglu_1237.0"}, {"from": "Beyoglu_448.0", "title": "Fiyat Fark\u0131: 794.0", "to": "Beyoglu_1242.0"}, {"from": "Beyoglu_448.0", "title": "Fiyat Fark\u0131: 1153.0", "to": "Beyoglu_1601.0"}, {"from": "Beyoglu_448.0", "title": "Fiyat Fark\u0131: 1186.0", "to": "Beyoglu_1634.0"}, {"from": "Beyoglu_448.0", "title": "Fiyat Fark\u0131: 1676.0", "to": "Beyoglu_2124.0"}, {"from": "Beyoglu_448.0", "title": "Fiyat Fark\u0131: 1909.0", "to": "Beyoglu_2357.0"}, {"from": "Beyoglu_448.0", "title": "Fiyat Fark\u0131: 2133.0", "to": "Beyoglu_2581.0"}, {"from": "Beyoglu_448.0", "title": "Fiyat Fark\u0131: 4420.0", "to": "Beyoglu_4868.0"}, {"from": "Beyoglu_490.0", "title": "Fiyat Fark\u0131: 396.0", "to": "Beyoglu_886.0"}, {"from": "Beyoglu_490.0", "title": "Fiyat Fark\u0131: 686.0", "to": "Beyoglu_1176.0"}, {"from": "Beyoglu_490.0", "title": "Fiyat Fark\u0131: 747.0", "to": "Beyoglu_1237.0"}, {"from": "Beyoglu_490.0", "title": "Fiyat Fark\u0131: 752.0", "to": "Beyoglu_1242.0"}, {"from": "Beyoglu_490.0", "title": "Fiyat Fark\u0131: 1111.0", "to": "Beyoglu_1601.0"}, {"from": "Beyoglu_490.0", "title": "Fiyat Fark\u0131: 1144.0", "to": "Beyoglu_1634.0"}, {"from": "Beyoglu_490.0", "title": "Fiyat Fark\u0131: 1634.0", "to": "Beyoglu_2124.0"}, {"from": "Beyoglu_490.0", "title": "Fiyat Fark\u0131: 1867.0", "to": "Beyoglu_2357.0"}, {"from": "Beyoglu_490.0", "title": "Fiyat Fark\u0131: 2091.0", "to": "Beyoglu_2581.0"}, {"from": "Beyoglu_490.0", "title": "Fiyat Fark\u0131: 4378.0", "to": "Beyoglu_4868.0"}, {"from": "Beyoglu_886.0", "title": "Fiyat Fark\u0131: 290.0", "to": "Beyoglu_1176.0"}, {"from": "Beyoglu_886.0", "title": "Fiyat Fark\u0131: 351.0", "to": "Beyoglu_1237.0"}, {"from": "Beyoglu_886.0", "title": "Fiyat Fark\u0131: 356.0", "to": "Beyoglu_1242.0"}, {"from": "Beyoglu_886.0", "title": "Fiyat Fark\u0131: 715.0", "to": "Beyoglu_1601.0"}, {"from": "Beyoglu_886.0", "title": "Fiyat Fark\u0131: 748.0", "to": "Beyoglu_1634.0"}, {"from": "Beyoglu_886.0", "title": "Fiyat Fark\u0131: 1238.0", "to": "Beyoglu_2124.0"}, {"from": "Beyoglu_886.0", "title": "Fiyat Fark\u0131: 1471.0", "to": "Beyoglu_2357.0"}, {"from": "Beyoglu_886.0", "title": "Fiyat Fark\u0131: 1695.0", "to": "Beyoglu_2581.0"}, {"from": "Beyoglu_886.0", "title": "Fiyat Fark\u0131: 3982.0", "to": "Beyoglu_4868.0"}, {"from": "Beyoglu_1176.0", "title": "Fiyat Fark\u0131: 61.0", "to": "Beyoglu_1237.0"}, {"from": "Beyoglu_1176.0", "title": "Fiyat Fark\u0131: 66.0", "to": "Beyoglu_1242.0"}, {"from": "Beyoglu_1176.0", "title": "Fiyat Fark\u0131: 425.0", "to": "Beyoglu_1601.0"}, {"from": "Beyoglu_1176.0", "title": "Fiyat Fark\u0131: 458.0", "to": "Beyoglu_1634.0"}, {"from": "Beyoglu_1176.0", "title": "Fiyat Fark\u0131: 948.0", "to": "Beyoglu_2124.0"}, {"from": "Beyoglu_1176.0", "title": "Fiyat Fark\u0131: 1181.0", "to": "Beyoglu_2357.0"}, {"from": "Beyoglu_1176.0", "title": "Fiyat Fark\u0131: 1405.0", "to": "Beyoglu_2581.0"}, {"from": "Beyoglu_1176.0", "title": "Fiyat Fark\u0131: 3692.0", "to": "Beyoglu_4868.0"}, {"from": "Beyoglu_1237.0", "title": "Fiyat Fark\u0131: 5.0", "to": "Beyoglu_1242.0"}, {"from": "Beyoglu_1237.0", "title": "Fiyat Fark\u0131: 364.0", "to": "Beyoglu_1601.0"}, {"from": "Beyoglu_1237.0", "title": "Fiyat Fark\u0131: 397.0", "to": "Beyoglu_1634.0"}, {"from": "Beyoglu_1237.0", "title": "Fiyat Fark\u0131: 887.0", "to": "Beyoglu_2124.0"}, {"from": "Beyoglu_1237.0", "title": "Fiyat Fark\u0131: 1120.0", "to": "Beyoglu_2357.0"}, {"from": "Beyoglu_1237.0", "title": "Fiyat Fark\u0131: 1344.0", "to": "Beyoglu_2581.0"}, {"from": "Beyoglu_1237.0", "title": "Fiyat Fark\u0131: 3631.0", "to": "Beyoglu_4868.0"}, {"from": "Beyoglu_1242.0", "title": "Fiyat Fark\u0131: 359.0", "to": "Beyoglu_1601.0"}, {"from": "Beyoglu_1242.0", "title": "Fiyat Fark\u0131: 392.0", "to": "Beyoglu_1634.0"}, {"from": "Beyoglu_1242.0", "title": "Fiyat Fark\u0131: 882.0", "to": "Beyoglu_2124.0"}, {"from": "Beyoglu_1242.0", "title": "Fiyat Fark\u0131: 1115.0", "to": "Beyoglu_2357.0"}, {"from": "Beyoglu_1242.0", "title": "Fiyat Fark\u0131: 1339.0", "to": "Beyoglu_2581.0"}, {"from": "Beyoglu_1242.0", "title": "Fiyat Fark\u0131: 3626.0", "to": "Beyoglu_4868.0"}, {"from": "Beyoglu_1601.0", "title": "Fiyat Fark\u0131: 33.0", "to": "Beyoglu_1634.0"}, {"from": "Beyoglu_1601.0", "title": "Fiyat Fark\u0131: 523.0", "to": "Beyoglu_2124.0"}, {"from": "Beyoglu_1601.0", "title": "Fiyat Fark\u0131: 756.0", "to": "Beyoglu_2357.0"}, {"from": "Beyoglu_1601.0", "title": "Fiyat Fark\u0131: 980.0", "to": "Beyoglu_2581.0"}, {"from": "Beyoglu_1601.0", "title": "Fiyat Fark\u0131: 3267.0", "to": "Beyoglu_4868.0"}, {"from": "Beyoglu_1634.0", "title": "Fiyat Fark\u0131: 490.0", "to": "Beyoglu_2124.0"}, {"from": "Beyoglu_1634.0", "title": "Fiyat Fark\u0131: 723.0", "to": "Beyoglu_2357.0"}, {"from": "Beyoglu_1634.0", "title": "Fiyat Fark\u0131: 947.0", "to": "Beyoglu_2581.0"}, {"from": "Beyoglu_1634.0", "title": "Fiyat Fark\u0131: 3234.0", "to": "Beyoglu_4868.0"}, {"from": "Beyoglu_2124.0", "title": "Fiyat Fark\u0131: 233.0", "to": "Beyoglu_2357.0"}, {"from": "Beyoglu_2124.0", "title": "Fiyat Fark\u0131: 457.0", "to": "Beyoglu_2581.0"}, {"from": "Beyoglu_2124.0", "title": "Fiyat Fark\u0131: 2744.0", "to": "Beyoglu_4868.0"}, {"from": "Beyoglu_2357.0", "title": "Fiyat Fark\u0131: 224.0", "to": "Beyoglu_2581.0"}, {"from": "Beyoglu_2357.0", "title": "Fiyat Fark\u0131: 2511.0", "to": "Beyoglu_4868.0"}, {"from": "Beyoglu_2581.0", "title": "Fiyat Fark\u0131: 2287.0", "to": "Beyoglu_4868.0"}, {"from": "Fatih_665.0", "title": "Fiyat Fark\u0131: 1211.0", "to": "Fatih_1876.0"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
